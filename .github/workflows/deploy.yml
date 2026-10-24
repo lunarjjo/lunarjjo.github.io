@@ -1,0 +1,58 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      # Aset Minecraft asli TIDAK pernah di-commit ke repo (hak cipta
+      # Mojang/Microsoft). Workflow ini mengambilnya langsung dari sumber
+      # asli saat build: font Monocraft (OFL) dari GitHub Releases, tekstur
+      # dari extraction komunitas, suara & musik dari server resmi Mojang
+      # (SHA-1 diverifikasi). Hasilnya hanya hidup di artifact Pages.
+      - name: Fetch aset Minecraft asli (SHA-1 verified)
+        run: |
+          python3 tools/fetch_mc_assets.py
+          python3 tools/fix_mc_assets.py
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build situs statis
+        run: bun run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+      - name: Deploy ke GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
