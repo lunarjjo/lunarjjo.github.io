@@ -67,9 +67,11 @@ def fix_font():
                 return
         except Exception:
             continue
-    # authenticated API fallback
+    # authenticated API fallback (env token dulu — di CI; baru PAT lokal)
     try:
-        tok = open("/home/z/my-project/.github_token").read().strip()
+        tok = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+        if not tok:
+            tok = open("/home/z/my-project/.github_token").read().strip()
         hdr = {"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"}
         meta = json.loads(http_get(
             "https://api.github.com/repos/IdreesInc/Monocraft/releases/latest", hdr).decode())

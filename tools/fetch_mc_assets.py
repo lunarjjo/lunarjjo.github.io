@@ -29,8 +29,11 @@ report = []   # (dest, source, bytes, info)
 failures = []
 
 
-def http_get(url, timeout=TIMEOUT):
-    req = urllib.request.Request(url, headers=UA)
+def http_get(url, timeout=TIMEOUT, headers=None):
+    h = dict(UA)
+    if headers:
+        h.update(headers)
+    req = urllib.request.Request(url, headers=h)
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return r.read()
 
@@ -93,24 +96,36 @@ def record(dest, source, data, kind):
 # A) Monocraft font
 # ----------------------------------------------------------------------------
 def fetch_font():
+    # 1) API dengan token (GH_TOKEN di CI, hindari rate-limit anonim dari
+    #    IP runner GitHub Actions yang shared)
+    tok = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
     try:
+        hdr = {"Accept": "application/vnd.github+json"}
+        if tok:
+            hdr["Authorization"] = f"Bearer {tok}"
         meta = json.loads(http_get(
-            "https://api.github.com/repos/IdreesInc/Monocraft/releases/latest").decode())
-        wanted = {"Monocraft.ttf": "fonts/Monocraft.ttf",
-                  "Monocraft-no-ligatures.ttf": "fonts/MonocraftNoLiga.ttf"}
-        got = 0
+            "https://api.github.com/repos/IdreesInc/Monocraft/releases/latest",
+            headers=hdr).decode())
         for asset in meta.get("assets", []):
-            name = asset.get("name", "")
-            if name in wanted:
+            if asset.get("name") == "Monocraft.ttf":
                 data = http_get(asset["browser_download_url"])
                 if magic_ok(data, "ttf"):
-                    record(wanted[name], f"IdreesInc/Monocraft {meta.get('tag_name','?')}",
-                           data, "ttf")
-                    got += 1
-        if got == 0:
-            failures.append("font: no Monocraft.ttf asset in latest release")
-    except Exception as e:
-        failures.append(f"font: {e}")
+                    record("fonts/Monocraft.ttf",
+                           f"IdreesInc/Monocraft {meta.get('tag_name', '?')}", data, "ttf")
+                    return
+    except Exception:
+        pass
+    # 2) direct release URL (tanpa API, tanpa auth)
+    for tag in ("v3.0", "v2.9", "v2.8"):
+        url = f"https://github.com/IdreesInc/Monocraft/releases/download/{tag}/Monocraft.ttf"
+        try:
+            data = http_get(url)
+            if magic_ok(data, "ttf"):
+                record("fonts/Monocraft.ttf", f"IdreesInc/Monocraft {tag}", data, "ttf")
+                return
+        except Exception:
+            continue
+    failures.append("font: Monocraft.ttf gagal (API rate-limit & direct URL)")
 
 
 # ----------------------------------------------------------------------------
@@ -171,8 +186,14 @@ TEXTURES = [
                             "textures/gui/advancements/window.png"]),
     ("gui/icons.png", ["textures/gui/icons.png"]),
     # --- items
-    ("items/compass.png", ["textures/item/compass.png"]),
-    ("items/clock.png", ["textures/item/clock.png"]),
+    # compass & clock di 1.20.4 dipecah per-frame (compass_00..31) — ambil
+    # frame tengah; fix_mc_assets.py tetap jadi lapisan pengaman.
+    ("items/compass.png", ["textures/item/compass_16.png",
+                           "textures/item/compass_17.png",
+                           "textures/item/compass.png"]),
+    ("items/clock.png", ["textures/item/clock_16.png",
+                         "textures/item/clock_17.png",
+                         "textures/item/clock.png"]),
     ("items/book.png", ["textures/item/book.png"]),
     ("items/enchanted_book.png", ["textures/item/enchanted_book.png"]),
     ("items/writable_book.png", ["textures/item/writable_book.png"]),
@@ -191,10 +212,6 @@ TEXTURES = [
     ("items/spyglass.png", ["textures/item/spyglass.png"]),
     ("items/flint_and_steel.png", ["textures/item/flint_and_steel.png"]),
     ("items/name_tag.png", ["textures/item/name_tag.png"]),
-    ("items/recovery_compass.png", ["textures/item/recovery_compass.png"]),
-    ("items/player_head.png", ["textures/item/player_head.png"]),
-    ("items/creeper_head.png", ["textures/item/creeper_head.png"]),
-    ("items/skeleton_skull.png", ["textures/item/skeleton_skull.png"]),
     ("items/golden_apple.png", ["textures/item/golden_apple.png"]),
     ("items/shears.png", ["textures/item/shears.png"]),
     # --- blocks (panorama + world icons + skills)
@@ -258,22 +275,35 @@ def fetch_textures():
 ASSET_VERSION = "1.20.4"
 
 # dest -> list of exact logical names (first match wins), or ("glob", pattern)
+# KUNCI TERVERIFIKASI terhadap asset index 1.20.4 resmi Mojang (ukuran byte
+# file lokal QA'd cocok persis dengan index: open1/close1, note/*, dsb.)
 SOUND_SPECS = [
     ("click.ogg", ["minecraft/sounds/random/click.ogg"]),
     ("levelup.ogg", ["minecraft/sounds/random/levelup.ogg"]),
     ("orb.ogg", ["minecraft/sounds/random/orb.ogg"]),
     ("pop.ogg", ["minecraft/sounds/random/pop.ogg"]),
-    ("door_open.ogg", ["minecraft/sounds/block/wooden_door/open.ogg"]),
-    ("door_close.ogg", ["minecraft/sounds/block/wooden_door/close.ogg"]),
-    ("pling.ogg", [("glob", "minecraft/sounds/block/note_block/pling")]),
-    ("toast.ogg", [("glob", "minecraft/sounds/ui/toast/challenge"),
-                   ("glob", "minecraft/sounds/ui/toast/"),
-                   "minecraft/sounds/random/levelup.ogg"]),
+    # pintu: kunci asli bernomor (open1/close1), bukan open.ogg/close.ogg
+    ("door_open.ogg", ["minecraft/sounds/block/wooden_door/open1.ogg",
+                       "minecraft/sounds/block/wooden_door/open2.ogg"]),
+    ("door_close.ogg", ["minecraft/sounds/block/wooden_door/close1.ogg",
+                        "minecraft/sounds/block/wooden_door/close2.ogg"]),
+    # note block: kunci asli di sounds/note/ (bukan block/note_block/)
+    ("pling.ogg", ["minecraft/sounds/note/pling.ogg"]),
+    ("bell.ogg", ["minecraft/sounds/note/bell.ogg"]),
+    ("harp.ogg", ["minecraft/sounds/note/harp.ogg"]),
+    ("toast.ogg", ["minecraft/sounds/ui/toast/challenge_complete.ogg",
+                   ("glob", "minecraft/sounds/ui/toast/")]),
+    # music disc (C418)
     ("bgm_cat.ogg", ["minecraft/sounds/records/cat.ogg"]),
     ("bgm_far.ogg", ["minecraft/sounds/records/far.ogg"]),
     ("bgm_mellohi.ogg", ["minecraft/sounds/records/mellohi.ogg"]),
-    ("bgm_menu.ogg", [("glob", "minecraft/sounds/music/menu/menu1"),
-                      ("glob", "minecraft/sounds/music/menu/")]),
+    # musik menu: nama file di index != nama track — mutation, moog_city_2,
+    # beginning_2, floating_trees (semua terverifikasi byte-exact)
+    ("bgm_menu.ogg", ["minecraft/sounds/music/menu/mutation.ogg",
+                      ("glob", "minecraft/sounds/music/menu/menu1")]),
+    ("bgm_moog.ogg", ["minecraft/sounds/music/menu/moog_city_2.ogg"]),
+    ("bgm_beginning.ogg", ["minecraft/sounds/music/menu/beginning_2.ogg"]),
+    ("bgm_floating.ogg", ["minecraft/sounds/music/menu/floating_trees.ogg"]),
 ]
 
 
