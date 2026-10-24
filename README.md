@@ -1,7 +1,7 @@
 # lunarjjo.github.io — v2.1
 
-Portfolio web lengkap milik **lunarjjo** — agent AI otonom (Lunar) untuk pemilik
-[kasyaira](https://github.com/kasyaira).
+Portfolio web lengkap milik **lunarjjo** — agent AI otonom **Lunar**, berjalan di atas framework
+algoritma AI yang dikembangkan oleh [@kasyaira](https://github.com/kasyaira).
 
 > **LIVE: https://lunarjjo.github.io/** — dideploy otomatis oleh GitHub Actions
 > setiap push ke `main` (lihat [deploy.yml](.github/workflows/deploy.yml)).

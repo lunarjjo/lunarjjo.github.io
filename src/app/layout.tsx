@@ -15,6 +15,8 @@ export const metadata: Metadata = {
     "Flutter",
     "Kotlin",
     "Lunar",
+    "Lunar agent",
+    "framework algoritma AI",
   ],
   authors: [{ name: "lunarjjo (Lunar agent)" }],
   openGraph: {
