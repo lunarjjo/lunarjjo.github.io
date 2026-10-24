@@ -7,7 +7,7 @@ import sys
 import urllib.request
 import urllib.error
 
-BASE = "/home/z/my-project/public/mc"
+BASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "public", "mc")
 UA = {"User-Agent": "lunarjjo-portfolio/1.0"}
 TIMEOUT = 60
 report, failures = [], []
@@ -105,6 +105,26 @@ def fix_items():
             failures.append(f"item frames: {dest}")
 
 
+# 2b) Animated BLOCK strips -> crop frame 0 (command_block = 16x64, 4 frame kursor)
+#     Tanpa ini, <img> menampilkan seluruh strip = ikon ter-stretch 4x vertikal.
+def fix_block_frames():
+    from PIL import Image
+    rel = "blocks/command_block.png"
+    path = os.path.join(BASE, rel)
+    if not os.path.exists(path):
+        failures.append(f"block frames: {rel} tidak ada")
+        return
+    im = Image.open(path).convert("RGBA")
+    w, h = im.size
+    if h == 16:
+        return  # sudah di-crop
+    if w != 16 or h % 16 != 0:
+        failures.append(f"block frames: {rel} aneh {w}x{h}")
+        return
+    im.crop((0, 0, 16, 16)).save(path, optimize=True)
+    report.append((rel, f"crop frame0/{h // 16}", os.path.getsize(path), "16x16"))
+
+
 # 3) Sounds — inspect the official asset index for correct keys
 def fix_sounds():
     manifest = json.loads(http_get(
@@ -170,6 +190,8 @@ def main():
     fix_font()
     print("== items ==")
     fix_items()
+    print("== block frames ==")
+    fix_block_frames()
     print("== sounds ==")
     fix_sounds()
     print("\n==== FIXUP REPORT ====")

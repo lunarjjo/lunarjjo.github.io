@@ -123,7 +123,7 @@ export function LiveSystems() {
         {/* repo live */}
         <MCPanel className="reveal flex flex-col p-5">
           <div className="flex items-center gap-2">
-            <ItemIcon src="/mc/items/ender_eye.png" size={22} alt="" />
+            <ItemIcon src="/mc/items/ender_eye.png" size={32} alt="" />
             <h3 className="mc-font mc-sh text-[15px] text-white">Repo GitHub — Live</h3>
           </div>
 
@@ -175,7 +175,7 @@ export function LiveSystems() {
         {/* aktivitas */}
         <MCPanel className="reveal p-5">
           <div className="flex items-center gap-2">
-            <ItemIcon src="/mc/items/clock.png" size={22} alt="" />
+            <ItemIcon src="/mc/items/clock.png" size={32} alt="" />
             <h3 className="mc-font mc-sh text-[15px] text-white">Aktivitas Terakhir</h3>
           </div>
 

@@ -32,9 +32,9 @@ export function SectionHeading({
     <div className="mb-10 px-4">
       <div className="flex items-center gap-4">
         <div className="mc-sec-rule flex-1" />
-        <ItemIcon src={icon} size={30} alt="" />
+        <ItemIcon src={icon} size={32} alt="" />
         <h2 className="mc-font mc-sh text-center text-[22px] text-white sm:text-[27px]">{title}</h2>
-        <ItemIcon src={icon} size={30} alt="" className="scale-x-[-1]" />
+        <ItemIcon src={icon} size={32} alt="" className="scale-x-[-1]" />
         <div className="mc-sec-rule flex-1" />
       </div>
       {subtitle && (
@@ -46,30 +46,19 @@ export function SectionHeading({
   );
 }
 
-/* ---------------- XP bar mini (tekstur asli) ---------------- */
+/* ---------------- XP bar mini (tekstur asli, 9-slice + cap utuh) ----------------
+   xp_bg/fg = 182x5: 1px garis outline atas/bawah + 2px cap kiri/kanan.
+   Slice mempertahankan cap & outline di skala 2x; tengah repeat horizontal
+   sehingga garis-garis halus tidak melebar. Isi (fg) di-clip via clip-path. */
 function XPBar({ pct, height = 10 }: { pct: number; height?: number }) {
+  const hide = Math.round((1 - Math.min(1, Math.max(0, pct))) * 100);
   return (
     <div className="relative w-full" style={{ height }} aria-hidden>
+      <div className="mc-xp-bg absolute inset-0" />
       <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: "url(/mc/gui/xp_bg.png)",
-          backgroundSize: "100% 100%",
-          imageRendering: "pixelated",
-        }}
+        className="mc-xp-fg absolute inset-0"
+        style={{ clipPath: `inset(0 ${hide}% 0 0)` }}
       />
-      <div className="absolute inset-0 overflow-hidden" style={{ width: `${Math.round(pct * 100)}%` }}>
-        <div
-          className="h-full"
-          style={{
-            width: "100%",
-            minWidth: 4,
-            backgroundImage: "url(/mc/gui/xp_fg.png)",
-            backgroundSize: "100% 100%",
-            imageRendering: "pixelated",
-          }}
-        />
-      </div>
     </div>
   );
 }
@@ -83,7 +72,7 @@ export function StatsStrip() {
           {STAT_CARDS.map((s) => (
             <MCTooltip key={s.label} title={s.label} lines={[{ text: s.tip, color: "#a8a8a8" }]}>
               <div className="mc-slot reveal flex h-full w-full flex-col items-center gap-1.5 px-3 py-4">
-                <ItemIcon src={s.icon} size={34} alt="" />
+                <ItemIcon src={s.icon} size={32} alt="" />
                 <div className="mc-font mc-sh text-[22px] text-[#ffff55]">{s.value}</div>
                 <div className="mc-font text-center text-[10px] leading-[1.5] text-[#bdbdbd]">
                   {s.label}
@@ -238,17 +227,16 @@ export function Skills() {
               className={`mc-focus relative px-4 py-1.5 text-[13px] ${
                 isActive ? "" : "opacity-80 hover:opacity-100"
               }`}
-              style={{ background: "transparent", border: "none", cursor: "pointer" }}
+              style={{
+                background: "transparent",
+                cursor: "pointer",
+                borderStyle: "solid",
+                borderImage: `url(/mc/gui/${
+                  isActive ? "button_highlighted.png" : "button.png"
+                }) 2 fill / 4px stretch`,
+                imageRendering: "pixelated",
+              }}
             >
-              <span
-                aria-hidden
-                className="absolute inset-0 -z-10"
-                style={{
-                  backgroundImage: `url(/mc/gui/${isActive ? "button_highlighted.png" : "button.png"})`,
-                  backgroundSize: "100% 100%",
-                  imageRendering: "pixelated",
-                }}
-              />
               <span className="mc-font mc-sh relative z-10 text-white">{c}</span>
             </button>
           );
@@ -274,7 +262,7 @@ export function Skills() {
               </span>
             </div>
 
-            <XPBar pct={s.level / 5} height={7} />
+            <XPBar pct={s.level / 5} height={10} />
 
             <ul className="space-y-1.5">
               {s.lore.map((l, i) => (

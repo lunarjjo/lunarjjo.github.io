@@ -105,7 +105,7 @@ export function Toasts() {
         <PixelImg src="/mc/gui/toasts.png" alt="" width={320} height={64} className="h-full w-full" />
         <div className="absolute inset-0 flex items-center gap-3 px-4">
           <div className="adv-frame done flex h-10 w-10 shrink-0 items-center justify-center">
-            <ItemIcon src={t.icon} size={28} alt="" />
+            <ItemIcon src={t.icon} size={32} alt="" />
           </div>
           <div className="mc-font">
             <div className="text-[13px] text-[#ffff55] mc-sh-soft">

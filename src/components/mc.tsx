@@ -37,7 +37,10 @@ export function PixelImg({
   );
 }
 
-/* ---------- Button (real 3-state widget texture) ---------- */
+/* ---------- Button (real 3-state widget texture, 9-slice) ----------
+   button.png = 200x20: 1px outline hitam + 1px highlight per sisi.
+   background-size:100% 100% akan melar border 2.3x pada tombol tinggi —
+   pakai border-image slice 2 supaya pojok & border tetap piksel-asli. */
 type BtnProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   width?: number | string;
   size?: "md" | "lg" | "sm";
@@ -73,25 +76,16 @@ export function MCButton({
       onMouseLeave={() => setHover(false)}
       className={`mc-font mc-focus relative min-w-[44px] ${font} ${
         disabled ? "text-[#a0a0a0]" : "text-white"
-      } mc-sh px-3 py-[7px] ${className}`}
+      } mc-sh px-3 py-[5px] ${className}`}
       style={{
         width,
-        background: "transparent",
-        border: "none",
         cursor: disabled ? "default" : "pointer",
+        borderStyle: "solid",
+        borderImage: `url(${bg}) 2 fill / 4px stretch`,
         imageRendering: "pixelated",
         ...style,
       }}
     >
-      <span
-        aria-hidden
-        className="absolute inset-0 -z-10"
-        style={{
-          backgroundImage: `url(${bg})`,
-          backgroundSize: "100% 100%",
-          imageRendering: "pixelated",
-        }}
-      />
       <span className="relative z-10 inline-flex items-center justify-center gap-2 whitespace-nowrap">
         {children}
       </span>

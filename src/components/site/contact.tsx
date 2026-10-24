@@ -93,7 +93,7 @@ export function Footer() {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           <div>
             <div className="flex items-center gap-2">
-              <ItemIcon src="/mc/items/compass.png" size={24} alt="" />
+              <ItemIcon src="/mc/items/compass.png" size={32} alt="" />
               <span className="mc-font mc-sh text-[15px] text-white">lunarjjo</span>
             </div>
             <p className="mc-font mt-3 text-[11px] leading-[1.8] text-[#a8a8a8]">

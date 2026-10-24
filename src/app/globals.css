@@ -160,6 +160,23 @@
   text-shadow: 1.5px 1.5px 0 rgba(0, 0, 0, 0.45);
 }
 
+/* XP bar 9-slice (182x5: 1px outline atas/bawah, 2px cap kiri/kanan).
+   Cap & outline dijaga di skala 2x; tengah repeat horizontal supaya
+   garis-garis halus tidak melebar saat bar selebar viewport. */
+.mc-xp-bg,
+.mc-xp-fg {
+  border-style: solid;
+  image-rendering: pixelated;
+}
+.mc-xp-bg {
+  border-image: url("/mc/gui/xp_bg.png") 1 2 1 2 fill / 2px 4px 2px 4px repeat
+    stretch;
+}
+.mc-xp-fg {
+  border-image: url("/mc/gui/xp_fg.png") 1 2 1 2 fill / 2px 4px 2px 4px repeat
+    stretch;
+}
+
 /* dirt background (options-screen style) */
 .mc-dirt-bg {
   background-image: url("/mc/blocks/dirt.png");

@@ -32,7 +32,7 @@ function IconToggle({
       >
         <ItemIcon
           src={icon}
-          size={24}
+          size={32}
           alt=""
           className={active ? "drop-shadow-[0_0_4px_rgba(85,255,85,0.8)]" : ""}
         />
@@ -83,7 +83,7 @@ export function TopBar({ active }: { active: string }) {
             className="mc-focus flex min-w-0 items-center gap-2"
             aria-label="lunarjjo — kembali ke atas"
           >
-            <ItemIcon src="/mc/items/compass.png" size={30} alt="" className="shrink-0" />
+            <ItemIcon src="/mc/items/compass.png" size={32} alt="" className="shrink-0" />
             <span className="mc-font mc-sh hidden text-[17px] tracking-wide text-white sm:inline">
               LUNARJJO
             </span>
@@ -156,31 +156,13 @@ export function TopBar({ active }: { active: string }) {
           </div>
         </div>
 
-        {/* progress baca — tekstur XP bar asli */}
-        <div className="relative h-[7px] w-full" aria-hidden>
+        {/* progress baca — tekstur XP bar asli, 9-slice + clip-path */}
+        <div className="relative h-[10px] w-full" aria-hidden>
+          <div className="mc-xp-bg absolute inset-0" />
           <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: "url(/mc/gui/xp_bg.png)",
-              backgroundSize: "100% 100%",
-              imageRendering: "pixelated",
-            }}
+            className="mc-xp-fg absolute inset-0 transition-[clip-path] duration-150"
+            style={{ clipPath: `inset(0 ${Math.round(100 - pct)}% 0 0)` }}
           />
-          <div
-            className="absolute inset-y-0 left-0 overflow-hidden transition-[width] duration-150"
-            style={{ width: `${pct}%` }}
-          >
-            <div
-              className="h-full"
-              style={{
-                width: "100vw",
-                maxWidth: "none",
-                backgroundImage: "url(/mc/gui/xp_fg.png)",
-                backgroundSize: "100vw 100%",
-                imageRendering: "pixelated",
-              }}
-            />
-          </div>
         </div>
       </div>
 
@@ -200,7 +182,7 @@ export function TopBar({ active }: { active: string }) {
                   active === s.id ? "border-[#ffffff33] bg-[#ffffff18] text-white" : "text-[#c9c9c9]"
                 }`}
               >
-                <ItemIcon src={s.icon} size={20} alt="" />
+                <ItemIcon src={s.icon} size={32} alt="" />
                 {s.label}
               </a>
             ))}

@@ -42,7 +42,7 @@ function ProjectCard({ id }: { id: string }) {
         >
           <div className="flex items-start gap-3">
             <div className="adv-frame flex h-14 w-14 shrink-0 items-center justify-center">
-              <ItemIcon src={p.icon} size={40} alt="" />
+              <ItemIcon src={p.icon} size={48} alt="" />
             </div>
             <div className="min-w-0 flex-1">
               <h3 className="mc-font mc-sh truncate text-[17px] text-white">{p.name}</h3>
@@ -132,7 +132,7 @@ function ProjectDialog() {
         {/* header */}
         <div className="sticky top-0 z-10 flex items-center gap-3 border-b-2 border-[#00000088] bg-[rgba(16,16,16,0.97)] p-4 sm:p-5">
           <div className="adv-frame flex h-14 w-14 shrink-0 items-center justify-center">
-            <ItemIcon src={p.icon} size={40} alt="" />
+            <ItemIcon src={p.icon} size={48} alt="" />
           </div>
           <div className="min-w-0 flex-1">
             <h3 className="mc-font mc-sh truncate text-[19px] text-white">{p.name}</h3>
@@ -181,7 +181,7 @@ function ProjectDialog() {
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             {p.features.map((f) => (
               <div key={f.title} className="flex gap-3 border-2 border-[#ffffff14] bg-[rgba(0,0,0,0.3)] p-3">
-                <ItemIcon src={f.icon} size={28} alt="" className="mt-0.5 shrink-0" />
+                <ItemIcon src={f.icon} size={32} alt="" className="mt-0.5 shrink-0" />
                 <div>
                   <div className="mc-font text-[13px] text-white">{f.title}</div>
                   <p className="mc-font mt-1 text-[11px] leading-[1.7] text-[#a8a8a8]">{f.text}</p>
