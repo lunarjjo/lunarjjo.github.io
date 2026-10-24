@@ -1,0 +1,472 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Monocraft", "Courier New", ui-monospace, monospace;
+    letter-spacing: 0.4px;
+  }
+  ::selection {
+    background: #3fb911;
+    color: #ffffff;
+  }
+  /* anchor offset di bawah navbar fixed */
+  section[id] {
+    scroll-margin-top: 86px;
+  }
+}
+
+/* ============================================================
+   MINECRAFT UI LAYER — real Mojang assets (public/mc/)
+   ============================================================ */
+@font-face {
+  font-family: "Monocraft";
+  src: url("/mc/fonts/Monocraft.ttf") format("truetype");
+  font-display: swap;
+}
+
+.mc-font {
+  font-family: "Monocraft", "Courier New", ui-monospace, monospace;
+  letter-spacing: 0.5px;
+}
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* classic MC text shadows */
+.mc-sh {
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6);
+}
+.mc-sh-soft {
+  text-shadow: 1.5px 1.5px 0 rgba(0, 0, 0, 0.45);
+}
+
+/* dirt background (options-screen style) */
+.mc-dirt-bg {
+  background-image: url("/mc/blocks/dirt.png");
+  background-size: 64px 64px;
+  background-color: #404040;
+  image-rendering: pixelated;
+}
+.mc-dirt-dark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  pointer-events: none;
+}
+
+/* MC-style tooltip */
+.mc-tooltip {
+  background: rgba(18, 2, 18, 0.96);
+  border: 2px solid #2b0a5e;
+  box-shadow: inset 0 0 0 2px #0d0116, 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+/* MC chat input line */
+.mc-chat-input {
+  background: rgba(0, 0, 0, 0.55);
+  border: none;
+  outline: 2px solid rgba(255, 255, 255, 0.18);
+}
+
+/* title logo */
+.mc-logo {
+  background: linear-gradient(180deg, #e6e6e6 0%, #bdbdbd 45%, #8a8a8a 55%, #6f6f6f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 2px #1c1c1c;
+  paint-order: stroke fill;
+  filter: drop-shadow(4px 5px 0 rgba(20, 20, 20, 0.85));
+  letter-spacing: 2px;
+}
+
+/* splash text */
+.mc-splash {
+  color: #ffff55;
+  text-shadow: 2px 2px 0 #3f3f14;
+  animation: splash-pulse 0.45s ease-in-out infinite alternate;
+  transform: rotate(-17deg);
+}
+@keyframes splash-pulse {
+  from {
+    scale: 0.94;
+  }
+  to {
+    scale: 1.06;
+  }
+}
+
+/* panorama marquee (seamless 2x loop) */
+.pan-marquee {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  animation: pan-scroll var(--pan-dur, 160s) linear infinite;
+}
+.pan-marquee.paused {
+  animation-play-state: paused;
+}
+@keyframes pan-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* toast slide */
+.mc-toast {
+  animation: toast-in 0.28s ease-out;
+}
+@keyframes toast-in {
+  from {
+    transform: translateX(120%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.mc-toast.out {
+  animation: toast-out 0.35s ease-in forwards;
+}
+@keyframes toast-out {
+  to {
+    transform: translateX(130%);
+    opacity: 0;
+  }
+}
+
+/* advancement icon frame */
+.adv-frame {
+  box-shadow: inset 0 0 0 2px #1b1b1b, inset 0 0 0 4px #565656,
+    inset 4px 4px 0 6px #313131;
+  background: #212121;
+}
+.adv-frame.done {
+  box-shadow: inset 0 0 0 2px #231205, inset 0 0 0 4px #d99a3c,
+    inset 4px 4px 0 6px #4c3510;
+  background: #2e2410;
+}
+
+/* world list row */
+.world-row {
+  border: 2px solid transparent;
+}
+.world-row:hover {
+  border-color: #a0a0a0;
+  background: rgba(255, 255, 255, 0.06);
+}
+.world-row.selected {
+  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* selection outline for keyboard focus */
+.mc-focus:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 1px;
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .mc-splash,
+  .pan-marquee,
+  .mc-float,
+  .mc-live-dot {
+    animation: none !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* thin MC-ish scrollbar — global */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #7a7a7a #1a1a1a;
+}
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: #161616;
+}
+::-webkit-scrollbar-thumb {
+  background: #6e6e6e;
+  border: 2px solid #2c2c2c;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8a8a8a;
+}
+.mc-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+.mc-scroll::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.4);
+}
+.mc-scroll::-webkit-scrollbar-thumb {
+  background: #7a7a7a;
+  border: 2px solid #3d3d3d;
+}
+
+/* ============================================================
+   PORTFOLIO LAYOUT LAYER — tema Minecraft di atas layout web
+   ============================================================ */
+
+/* slot inventori (kartu stats) */
+.mc-slot {
+  background: #1e1e20;
+  box-shadow:
+    inset 3px 3px 0 #3a3a3e,
+    inset -3px -3px 0 #101012,
+    inset 0 0 0 3px #0a0a0b;
+  transition: box-shadow 0.12s ease, transform 0.12s ease;
+}
+.mc-slot:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 3px 3px 0 #4a4a4f,
+    inset -3px -3px 0 #101012,
+    inset 0 0 0 3px rgba(255, 255, 255, 0.28);
+}
+
+/* band dirt ala layar options */
+.mc-dirt-band {
+  position: relative;
+  background-image: url("/mc/blocks/dirt.png");
+  background-size: 64px 64px;
+  background-color: #3a3a3a;
+  image-rendering: pixelated;
+  border-top: 3px solid #0a0a0a;
+  border-bottom: 3px solid #0a0a0a;
+}
+.mc-dirt-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.66);
+  pointer-events: none;
+}
+
+/* vignette halus seluruh halaman */
+.mc-vignette {
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.42) 100%);
+}
+
+/* judul seksi ala header layar game */
+.mc-sec-rule {
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #565656 30%, #565656 70%, transparent);
+  opacity: 0.6;
+}
+
+/* reveal on scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* indikator scroll hero */
+.mc-float {
+  animation: mc-float 1.6s ease-in-out infinite;
+}
+@keyframes mc-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+/* titik LIVE merah */
+.mc-live-dot {
+  animation: mc-live 1.4s ease-in-out infinite;
+}
+@keyframes mc-live {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* dialog proyek */
+.mc-dialog-backdrop {
+  background: rgba(6, 6, 10, 0.78);
+  backdrop-filter: blur(2px);
+}
+.mc-dialog-in {
+  animation: dialog-in 0.22s ease-out;
+}
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* timeline kronolog */
+.mc-timeline {
+  position: relative;
+}
+.mc-timeline::before {
+  content: "";
+  position: absolute;
+  left: 27px;
+  top: 8px;
+  bottom: 8px;
+  width: 4px;
+  background: #3a3a3e;
+  box-shadow: inset 0 0 0 2px #101012;
+}
+
+/* baris repo live */
+.repo-row:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* menu mobile */
+.mc-mobile-menu {
+  animation: dialog-in 0.18s ease-out;
+}

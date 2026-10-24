@@ -1,0 +1,9 @@
+node_modules/
+.next/
+out/
+db/
+*.log
+.env*
+.env
+# aset Mojang TIDAK di-commit — fetch via tools/fetch_mc_assets.py
+public/mc/

@@ -1,0 +1,448 @@
+{
+  "ok": [
+    {
+      "dest": "gui/button.png",
+      "source": "1.20.4/textures/gui/sprites/widget/button.png",
+      "bytes": 1699,
+      "info": "200x20 avg=(101, 101, 101)"
+    },
+    {
+      "dest": "gui/button_disabled.png",
+      "source": "1.20.4/textures/gui/sprites/widget/button_disabled.png",
+      "bytes": 1158,
+      "info": "200x20 avg=(39, 39, 39)"
+    },
+    {
+      "dest": "gui/button_highlighted.png",
+      "source": "1.20.4/textures/gui/sprites/widget/button_highlighted.png",
+      "bytes": 1703,
+      "info": "200x20 avg=(129, 129, 129)"
+    },
+    {
+      "dest": "gui/slider.png",
+      "source": "1.20.4/textures/gui/sprites/widget/slider.png",
+      "bytes": 1158,
+      "info": "200x20 avg=(39, 39, 39)"
+    },
+    {
+      "dest": "gui/slider_handle.png",
+      "source": "1.20.4/textures/gui/sprites/widget/slider_handle.png",
+      "bytes": 242,
+      "info": "8x20 avg=(79, 79, 79)"
+    },
+    {
+      "dest": "gui/slider_handle_highlighted.png",
+      "source": "1.20.4/textures/gui/sprites/widget/slider_handle_highlighted.png",
+      "bytes": 237,
+      "info": "8x20 avg=(162, 162, 162)"
+    },
+    {
+      "dest": "gui/hotbar.png",
+      "source": "1.20.4/textures/gui/sprites/hud/hotbar.png",
+      "bytes": 1872,
+      "info": "182x22 avg=(61, 60, 46)"
+    },
+    {
+      "dest": "gui/hotbar_selection.png",
+      "source": "1.20.4/textures/gui/sprites/hud/hotbar_selection.png",
+      "bytes": 504,
+      "info": "24x23 avg=(111, 122, 109)"
+    },
+    {
+      "dest": "gui/xp_bg.png",
+      "source": "1.20.4/textures/gui/sprites/hud/experience_bar_background.png",
+      "bytes": 167,
+      "info": "182x5 avg=(26, 36, 30)"
+    },
+    {
+      "dest": "gui/xp_fg.png",
+      "source": "1.20.4/textures/gui/sprites/hud/experience_bar_progress.png",
+      "bytes": 1241,
+      "info": "182x5 avg=(67, 103, 47)"
+    },
+    {
+      "dest": "gui/heart_full.png",
+      "source": "1.20.4/textures/gui/sprites/hud/heart/full.png",
+      "bytes": 114,
+      "info": "9x9 avg=(166, 16, 16)"
+    },
+    {
+      "dest": "gui/heart_half.png",
+      "source": "1.20.4/textures/gui/sprites/hud/heart/half.png",
+      "bytes": 113,
+      "info": "9x9 avg=(109, 11, 11)"
+    },
+    {
+      "dest": "gui/heart_empty.png",
+      "source": "1.20.4/textures/gui/sprites/hud/heart/container.png",
+      "bytes": 108,
+      "info": "9x9 avg=(17, 17, 17)"
+    },
+    {
+      "dest": "gui/toasts.png",
+      "source": "1.20.4/textures/gui/sprites/toast/advancement.png",
+      "bytes": 157,
+      "info": "160x32 avg=(39, 39, 39)"
+    },
+    {
+      "dest": "gui/adv_window.png",
+      "source": "1.20.4/textures/gui/advancements/window.png",
+      "bytes": 771,
+      "info": "256x256 avg=(62, 62, 62)"
+    },
+    {
+      "dest": "gui/icons.png",
+      "source": "1.20.1/textures/gui/icons.png",
+      "bytes": 8081,
+      "info": "256x256 avg=(60, 58, 65)"
+    },
+    {
+      "dest": "items/book.png",
+      "source": "1.20.4/textures/item/book.png",
+      "bytes": 203,
+      "info": "16x16 avg=(60, 46, 26)"
+    },
+    {
+      "dest": "items/enchanted_book.png",
+      "source": "1.20.4/textures/item/enchanted_book.png",
+      "bytes": 251,
+      "info": "16x16 avg=(68, 43, 26)"
+    },
+    {
+      "dest": "items/writable_book.png",
+      "source": "1.20.4/textures/item/writable_book.png",
+      "bytes": 247,
+      "info": "16x16 avg=(89, 69, 63)"
+    },
+    {
+      "dest": "items/paper.png",
+      "source": "1.20.4/textures/item/paper.png",
+      "bytes": 176,
+      "info": "16x16 avg=(110, 110, 109)"
+    },
+    {
+      "dest": "items/map.png",
+      "source": "1.20.4/textures/item/map.png",
+      "bytes": 177,
+      "info": "16x16 avg=(109, 109, 75)"
+    },
+    {
+      "dest": "items/diamond.png",
+      "source": "1.20.4/textures/item/diamond.png",
+      "bytes": 208,
+      "info": "16x16 avg=(46, 108, 103)"
+    },
+    {
+      "dest": "items/emerald.png",
+      "source": "1.20.4/textures/item/emerald.png",
+      "bytes": 182,
+      "info": "16x16 avg=(20, 75, 33)"
+    },
+    {
+      "dest": "items/nether_star.png",
+      "source": "1.20.4/textures/item/nether_star.png",
+      "bytes": 186,
+      "info": "16x16 avg=(65, 79, 74)"
+    },
+    {
+      "dest": "items/ender_eye.png",
+      "source": "1.20.4/textures/item/ender_eye.png",
+      "bytes": 214,
+      "info": "16x16 avg=(38, 68, 51)"
+    },
+    {
+      "dest": "items/ender_pearl.png",
+      "source": "1.20.4/textures/item/ender_pearl.png",
+      "bytes": 206,
+      "info": "16x16 avg=(10, 49, 42)"
+    },
+    {
+      "dest": "items/experience_bottle.png",
+      "source": "1.20.4/textures/item/experience_bottle.png",
+      "bytes": 240,
+      "info": "16x16 avg=(118, 128, 59)"
+    },
+    {
+      "dest": "items/music_disc_cat.png",
+      "source": "1.20.4/textures/item/music_disc_cat.png",
+      "bytes": 185,
+      "info": "16x16 avg=(28, 34, 26)"
+    },
+    {
+      "dest": "items/diamond_sword.png",
+      "source": "1.20.4/textures/item/diamond_sword.png",
+      "bytes": 194,
+      "info": "16x16 avg=(18, 48, 41)"
+    },
+    {
+      "dest": "items/iron_pickaxe.png",
+      "source": "1.20.4/textures/item/iron_pickaxe.png",
+      "bytes": 182,
+      "info": "16x16 avg=(41, 37, 29)"
+    },
+    {
+      "dest": "items/bow.png",
+      "source": "1.20.4/textures/item/bow.png",
+      "bytes": 163,
+      "info": "16x16 avg=(45, 38, 28)"
+    },
+    {
+      "dest": "items/spyglass.png",
+      "source": "1.20.4/textures/item/spyglass.png",
+      "bytes": 211,
+      "info": "16x16 avg=(74, 51, 30)"
+    },
+    {
+      "dest": "items/flint_and_steel.png",
+      "source": "1.20.4/textures/item/flint_and_steel.png",
+      "bytes": 213,
+      "info": "16x16 avg=(33, 33, 33)"
+    },
+    {
+      "dest": "items/name_tag.png",
+      "source": "1.20.4/textures/item/name_tag.png",
+      "bytes": 209,
+      "info": "16x16 avg=(96, 93, 81)"
+    },
+    {
+      "dest": "items/golden_apple.png",
+      "source": "1.20.4/textures/item/golden_apple.png",
+      "bytes": 204,
+      "info": "16x16 avg=(117, 72, 19)"
+    },
+    {
+      "dest": "items/shears.png",
+      "source": "1.20.4/textures/item/shears.png",
+      "bytes": 189,
+      "info": "16x16 avg=(84, 67, 64)"
+    },
+    {
+      "dest": "blocks/grass_block_side.png",
+      "source": "1.20.4/textures/block/grass_block_side.png",
+      "bytes": 345,
+      "info": "16x16 avg=(126, 107, 65)"
+    },
+    {
+      "dest": "blocks/grass_block_top.png",
+      "source": "1.20.4/textures/block/grass_block_top.png",
+      "bytes": 298,
+      "info": "16x16 avg=(147, 147, 147)"
+    },
+    {
+      "dest": "blocks/dirt.png",
+      "source": "1.20.4/textures/block/dirt.png",
+      "bytes": 200,
+      "info": "16x16 avg=(133, 96, 66)"
+    },
+    {
+      "dest": "blocks/stone.png",
+      "source": "1.20.4/textures/block/stone.png",
+      "bytes": 157,
+      "info": "16x16 avg=(125, 125, 125)"
+    },
+    {
+      "dest": "blocks/cobblestone.png",
+      "source": "1.20.4/textures/block/cobblestone.png",
+      "bytes": 200,
+      "info": "16x16 avg=(128, 127, 127)"
+    },
+    {
+      "dest": "blocks/oak_log.png",
+      "source": "1.20.4/textures/block/oak_log.png",
+      "bytes": 193,
+      "info": "16x16 avg=(108, 84, 50)"
+    },
+    {
+      "dest": "blocks/oak_log_top.png",
+      "source": "1.20.4/textures/block/oak_log_top.png",
+      "bytes": 223,
+      "info": "16x16 avg=(154, 123, 74)"
+    },
+    {
+      "dest": "blocks/oak_planks.png",
+      "source": "1.20.4/textures/block/oak_planks.png",
+      "bytes": 202,
+      "info": "16x16 avg=(162, 131, 78)"
+    },
+    {
+      "dest": "blocks/oak_leaves.png",
+      "source": "1.20.4/textures/block/oak_leaves.png",
+      "bytes": 202,
+      "info": "16x16 avg=(144, 144, 144)"
+    },
+    {
+      "dest": "blocks/sand.png",
+      "source": "1.20.4/textures/block/sand.png",
+      "bytes": 189,
+      "info": "16x16 avg=(219, 207, 163)"
+    },
+    {
+      "dest": "blocks/glass.png",
+      "source": "1.20.4/textures/block/glass.png",
+      "bytes": 147,
+      "info": "16x16 avg=(96, 114, 117)"
+    },
+    {
+      "dest": "blocks/bedrock.png",
+      "source": "1.20.4/textures/block/bedrock.png",
+      "bytes": 169,
+      "info": "16x16 avg=(85, 85, 85)"
+    },
+    {
+      "dest": "blocks/command_block.png",
+      "source": "1.20.4/textures/block/command_block_front.png",
+      "bytes": 343,
+      "info": "16x64 avg=(180, 136, 109)"
+    },
+    {
+      "dest": "blocks/redstone_block.png",
+      "source": "1.20.4/textures/block/redstone_block.png",
+      "bytes": 174,
+      "info": "16x16 avg=(174, 24, 5)"
+    },
+    {
+      "dest": "blocks/diamond_ore.png",
+      "source": "1.20.4/textures/block/diamond_ore.png",
+      "bytes": 235,
+      "info": "16x16 avg=(121, 141, 140)"
+    },
+    {
+      "dest": "blocks/end_stone.png",
+      "source": "1.20.4/textures/block/end_stone.png",
+      "bytes": 206,
+      "info": "16x16 avg=(219, 223, 158)"
+    },
+    {
+      "dest": "blocks/netherrack.png",
+      "source": "1.20.4/textures/block/netherrack.png",
+      "bytes": 213,
+      "info": "16x16 avg=(97, 38, 38)"
+    },
+    {
+      "dest": "blocks/obsidian.png",
+      "source": "1.20.4/textures/block/obsidian.png",
+      "bytes": 189,
+      "info": "16x16 avg=(15, 10, 24)"
+    },
+    {
+      "dest": "blocks/tnt_side.png",
+      "source": "1.20.4/textures/block/tnt_side.png",
+      "bytes": 176,
+      "info": "16x16 avg=(182, 88, 83)"
+    },
+    {
+      "dest": "blocks/crafting_table_top.png",
+      "source": "1.20.4/textures/block/crafting_table_top.png",
+      "bytes": 211,
+      "info": "16x16 avg=(122, 75, 43)"
+    },
+    {
+      "dest": "blocks/crafting_table_front.png",
+      "source": "1.20.4/textures/block/crafting_table_front.png",
+      "bytes": 271,
+      "info": "16x16 avg=(132, 108, 71)"
+    },
+    {
+      "dest": "blocks/furnace_front.png",
+      "source": "1.20.4/textures/block/furnace_front.png",
+      "bytes": 254,
+      "info": "16x16 avg=(92, 92, 92)"
+    },
+    {
+      "dest": "blocks/water_still.png",
+      "source": "1.20.4/textures/block/water_still.png",
+      "bytes": 1513,
+      "info": "16x512 avg=(176, 176, 176)"
+    },
+    {
+      "dest": "blocks/note_block.png",
+      "source": "1.20.4/textures/block/note_block.png",
+      "bytes": 182,
+      "info": "16x16 avg=(91, 59, 41)"
+    },
+    {
+      "dest": "blocks/enchanting_table_top.png",
+      "source": "1.20.4/textures/block/enchanting_table_top.png",
+      "bytes": 175,
+      "info": "16x16 avg=(129, 76, 85)"
+    },
+    {
+      "dest": "entity/steve.png",
+      "source": "1.20.4/textures/entity/player/wide/steve.png",
+      "bytes": 920,
+      "info": "64x64 avg=(52, 83, 95)"
+    },
+    {
+      "dest": "entity/creeper.png",
+      "source": "1.20.4/textures/entity/creeper/creeper.png",
+      "bytes": 2835,
+      "info": "64x32 avg=(67, 117, 60)"
+    },
+    {
+      "dest": "click.ogg",
+      "source": "mojang-assets:minecraft/sounds/random/click.ogg",
+      "bytes": 9138,
+      "info": "ogg 8KB"
+    },
+    {
+      "dest": "levelup.ogg",
+      "source": "mojang-assets:minecraft/sounds/random/levelup.ogg",
+      "bytes": 15799,
+      "info": "ogg 15KB"
+    },
+    {
+      "dest": "orb.ogg",
+      "source": "mojang-assets:minecraft/sounds/random/orb.ogg",
+      "bytes": 7139,
+      "info": "ogg 6KB"
+    },
+    {
+      "dest": "pop.ogg",
+      "source": "mojang-assets:minecraft/sounds/random/pop.ogg",
+      "bytes": 4193,
+      "info": "ogg 4KB"
+    },
+    {
+      "dest": "toast.ogg",
+      "source": "mojang-assets:minecraft/sounds/ui/toast/challenge_complete.ogg",
+      "bytes": 91536,
+      "info": "ogg 89KB"
+    },
+    {
+      "dest": "bgm_cat.ogg",
+      "source": "mojang-assets:minecraft/sounds/records/cat.ogg",
+      "bytes": 1286636,
+      "info": "ogg 1256KB"
+    },
+    {
+      "dest": "bgm_far.ogg",
+      "source": "mojang-assets:minecraft/sounds/records/far.ogg",
+      "bytes": 1285938,
+      "info": "ogg 1255KB"
+    },
+    {
+      "dest": "bgm_mellohi.ogg",
+      "source": "mojang-assets:minecraft/sounds/records/mellohi.ogg",
+      "bytes": 663709,
+      "info": "ogg 648KB"
+    },
+    {
+      "dest": "bgm_menu.ogg",
+      "source": "mojang-assets:minecraft/sounds/music/menu/mutation.ogg",
+      "bytes": 1744657,
+      "info": "ogg 1703KB"
+    }
+  ],
+  "failures": [
+    "font: HTTP Error 403: rate limit exceeded",
+    "texture: items/compass.png (no candidate matched)",
+    "texture: items/clock.png (no candidate matched)",
+    "texture: items/recovery_compass.png (no candidate matched)",
+    "texture: items/player_head.png (no candidate matched)",
+    "texture: items/creeper_head.png (no candidate matched)",
+    "texture: items/skeleton_skull.png (no candidate matched)",
+    "sound: door_open.ogg (no key in asset index)",
+    "sound: door_close.ogg (no key in asset index)",
+    "sound: pling.ogg (no key in asset index)"
+  ]
+}
