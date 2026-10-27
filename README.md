@@ -52,6 +52,12 @@ from the public GitHub API.
 
 ## Page features
 
+- **13 languages, 13 static pages** — the whole site is fully localized: English at the root
+  (`/`) and `/id/ /es/ /fr/ /de/ /pt/ /it/ /ru/ /ja/ /zh-CN/ /ko/ /hi/ /ar/` as prerendered
+  pages (Arabic renders right-to-left). A Minecraft-styled language switcher in the navbar
+  navigates instantly (music keeps playing, the current section is preserved), unlocks the
+  *Polyglot* advancement, and remembers the choice. SEO: `hreflang` alternates, canonical,
+  `og:locale`, and a 13-entry `sitemap.xml` — all baked per page at build time
 - **Procedural panorama hero** drawn from original block textures (day ⇄ night, navbar toggle)
 - **Original C418 et al. BGM** that switches automatically with the visible section (7 tracks, crossfade)
 - **Original SFX**: UI button clicks, dialog door open/close, advancement toast, signal bell
@@ -77,8 +83,18 @@ python3 tools/fix_mc_assets.py   # post-fetch normalization (compass/clock frame
 
 bun run dev   # http://localhost:3000
 bun run build # static export to out/
+python3 tools/fix_lang_attrs.py out  # lang/dir/og:locale per locale page (CI runs this too)
 bun run serve # preview the static build (for local deploy checks)
 ```
+
+### Adding a language
+
+Every visible string lives in a typed dictionary under `src/i18n/messages/` —
+`en.ts` defines the `Dict` type, each locale file implements it (a missing key fails
+the type check at build time). To add a language: create `src/i18n/messages/<code>.ts`,
+register it in `src/i18n/index.ts` + `LOCALES` in `src/i18n/config.ts`, and add its
+entry to `tools/fix_lang_attrs.py`. The route, switcher entry, hreflang, sitemap and
+metadata all follow automatically.
 
 ## Structure
 

@@ -49,6 +49,14 @@ langsung oleh browser pengunjung dari API publik GitHub.
 
 ## Fitur halaman
 
+- **13 bahasa, 13 halaman statis** — seluruh situs terlokalisasi penuh: English di root
+  (`/`) dan `/id/ /es/ /fr/ /de/ /pt/ /it/ /ru/ /ja/ /zh-CN/ /ko/ /hi/ /ar/` sebagai
+  halaman ter-prerender (Arab tampil kanan-ke-kiri). Language switcher bergaya Minecraft
+  di navbar bernavigasi seketika (musik tetap mengalir, seksi aktif dipertahankan),
+  membuka advancement *Polyglot*, dan mengingat pilihan. SEO: `hreflang` alternates,
+  canonical, `og:locale`, dan `sitemap.xml` 13 entri — semuanya ter-bake per halaman
+  saat build
+
 - **Panorama hero prosedural** digambar dari tekstur block asli (siang ⇄ malam, toggle di navbar)
 - **BGM asli C418 dkk.** berganti otomatis mengikuti seksi yang terlihat (7 track, crossfade)
 - **SFX asli**: klik tombol UI, pintu buka/tutup dialog, toast advancement, bell sinyal
@@ -74,8 +82,19 @@ python3 tools/fix_mc_assets.py   # normalisasi pasca-fetch (compass/clock frame,
 
 bun run dev   # http://localhost:3000
 bun run build # ekspor statis ke out/
+python3 tools/fix_lang_attrs.py out  # lang/dir/og:locale per halaman bahasa (CI juga menjalankan ini)
 bun run serve # preview hasil build statis (untuk cek deploy lokal)
 ```
+
+### Menambah bahasa
+
+Semua teks yang tampil hidup di kamus bertipe di `src/i18n/messages/` —
+`en.ts` mendefinisikan tipe `Dict`, tiap file locale mengimplementasikannya
+(kunci yang hilang gagal di type check saat build). Cara menambah bahasa:
+buat `src/i18n/messages/<kode>.ts`, daftarkan di `src/i18n/index.ts` +
+`LOCALES` di `src/i18n/config.ts`, lalu tambahkan entrinya di
+`tools/fix_lang_attrs.py`. Route, entri switcher, hreflang, sitemap, dan
+metadata menyusul otomatis.
 
 ## Struktur
 
