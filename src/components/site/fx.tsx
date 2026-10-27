@@ -1,22 +1,33 @@
 "use client";
 
 /* FX: intro veil (loading merah ala Mojang, sekali per pengunjung),
-   advancement toast (tekstur toasts.png asli), click-burst partikel
-   (crop tekstur block asli — seperti partikel block pecah di game). */
+   advancement toast (tekstur toasts.png asli; teks advancement
+   di-resolve dari kamus aktif saat render — toast hanya menyimpan ID),
+   click-burst partikel (crop tekstur block asli — seperti partikel
+   block pecah di game). */
 
 import { useEffect, useRef, useState } from "react";
-import { LOADING_TIPS } from "@/lib/data";
 import { useSite } from "@/lib/store";
+import { useI18n } from "@/lib/i18n-context";
 import { ItemIcon, PixelImg } from "@/components/mc";
 
 /* ---------------- Intro veil ---------------- */
 const INTRO_KEY = "lunarjjo-intro-v2";
 
 export function IntroVeil({ onDone }: { onDone: () => void }) {
+  const { t } = useI18n();
   const [pct, setPct] = useState(0);
   // tip acak — lazy init; SSR/client bisa beda, diredam suppressHydrationWarning
-  const [tip] = useState(() => LOADING_TIPS[Math.floor(Math.random() * LOADING_TIPS.length)]);
-  const [show, setShow] = useState(true);
+  const [tip] = useState(() => t.loadingTips[Math.floor(Math.random() * t.loadingTips.length)]);
+  // init lazy dari localStorage: saat pengunjung berganti bahasa
+  // (navigasi SPA), veil TIDAK berkedip sama sekali — langsung hidden.
+  const [show, setShow] = useState(() => {
+    try {
+      return localStorage.getItem(INTRO_KEY) !== "1";
+    } catch {
+      return true;
+    }
+  });
   const doneRef = useRef(false);
 
   const finish = () => {
@@ -32,28 +43,22 @@ export function IntroVeil({ onDone }: { onDone: () => void }) {
   };
 
   useEffect(() => {
-    let seen = false;
-    try {
-      seen = localStorage.getItem(INTRO_KEY) === "1";
-    } catch {
-      /* ignore */
-    }
-    if (seen) {
-      // defer agar tidak setState sinkron di body effect
+    if (!show) {
+      // defer agar tidak setState sinkron di body effect (aturan React Compiler)
       const t = setTimeout(finish, 0);
       return () => clearTimeout(t);
     }
     const start = performance.now();
     let raf = 0;
-    const loop = (t: number) => {
-      const p = Math.min(100, ((t - start) / 1300) * 100);
+    const loop = (tm: number) => {
+      const p = Math.min(100, ((tm - start) / 1300) * 100);
       setPct(Math.floor(p));
       if (p < 100) raf = requestAnimationFrame(loop);
       else finish();
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [show]);
 
   if (!show) return null;
 
@@ -63,10 +68,10 @@ export function IntroVeil({ onDone }: { onDone: () => void }) {
       style={{ background: "#ef323d" }}
       onClick={finish}
       role="button"
-      aria-label="Lewati intro"
+      aria-label={t.ui.intro.skip}
     >
       <div className="mc-font mc-sh text-[42px] text-white sm:text-[64px]">LUNAR</div>
-      <div className="mc-font mt-2 text-[12px] text-[#ffd6d9]">membangun dunia portfolio…</div>
+      <div className="mc-font mt-2 text-[12px] text-[#ffd6d9]">{t.ui.intro.loading}</div>
       <div className="mt-8 w-[min(420px,80vw)]">
         <div className="h-[10px] w-full border-2 border-white/70 bg-[#ffffff26] p-[2px]">
           <div className="h-full bg-white transition-[width] duration-100" style={{ width: `${pct}%` }} />
@@ -85,33 +90,45 @@ export function IntroVeil({ onDone }: { onDone: () => void }) {
 /* ---------------- Advancement toast ---------------- */
 export function Toasts() {
   const { state, dismissToast } = useSite();
-  const t = state.toasts[0];
+  const { t } = useI18n();
+  const toast = state.toasts[0];
 
   useEffect(() => {
-    if (!t) return;
-    const timer = setTimeout(() => dismissToast(t.id), 4200);
+    if (!toast) return;
+    const timer = setTimeout(() => dismissToast(toast.id), 4200);
     return () => clearTimeout(timer);
-  }, [t, dismissToast]);
+  }, [toast, dismissToast]);
 
-  if (!t) return null;
+  if (!toast) return null;
+
+  const title =
+    toast.kind === "advancement" && toast.advId
+      ? t.advancements.items[toast.advId as keyof typeof t.advancements.items]?.title ?? "???"
+      : (toast.title ?? "");
+  const desc =
+    toast.kind === "advancement" && toast.advId
+      ? t.advancements.items[toast.advId as keyof typeof t.advancements.items]?.desc ?? ""
+      : (toast.desc ?? "");
 
   return (
     <div
       role="status"
+      aria-live="polite"
       className="mc-toast fixed right-2 top-20 z-[60] sm:right-4 sm:top-[84px]"
-      onClick={() => dismissToast(t.id)}
+      onClick={() => dismissToast(toast.id)}
     >
       <div className="relative cursor-pointer" style={{ width: 320, height: 64 }}>
         <PixelImg src="/mc/gui/toasts.png" alt="" width={320} height={64} className="h-full w-full" />
         <div className="absolute inset-0 flex items-center gap-3 px-4">
           <div className="adv-frame done flex h-10 w-10 shrink-0 items-center justify-center">
-            <ItemIcon src={t.icon} size={32} alt="" />
+            <ItemIcon src={toast.icon} size={32} alt="" />
           </div>
           <div className="mc-font">
             <div className="text-[13px] text-[#ffff55] mc-sh-soft">
-              {t.kind === "advancement" ? "Advancement Made!" : "Info"}
+              {toast.kind === "advancement" ? t.ui.toast.advancementMade : t.ui.toast.info}
             </div>
-            <div className="text-[15px] text-white mc-sh-soft">{t.title}</div>
+            <div className="text-[15px] text-white mc-sh-soft">{title}</div>
+            {desc && <div className="text-[10px] text-[#a8a8a8] mc-sh-soft">{desc}</div>}
           </div>
         </div>
       </div>

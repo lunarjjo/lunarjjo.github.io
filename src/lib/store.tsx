@@ -2,7 +2,12 @@
 
 /* Site store — layout portofolio web + tema Minecraft.
    State: options (music/sfx/particles/day-night), advancement discovery,
-   toast queue, dialog proyek terbuka. Persist localStorage. */
+   toast queue, dialog proyek terbuka. Persist localStorage.
+   Provider ini hidup di ROOT LAYOUT sehingga state (musik, advancement,
+   preferensi) BERTAHAN ketika pengunjung berganti bahasa (navigasi
+   antar /, /id/, /ja/ ... tetap SPA — musik tidak terputus).
+   Teks advancement TIDAK disimpan di toast — hanya advId — supaya
+   toast selalu tampil dalam bahasa yang sedang aktif. */
 
 import {
   createContext,
@@ -27,9 +32,12 @@ export type Options = {
 export type ToastItem = {
   id: number;
   icon: string;
-  title: string;
-  desc: string;
   kind: "advancement" | "info";
+  /** advancement id — teks di-resolve dari kamus saat render */
+  advId?: string;
+  /** untuk toast info non-advancement */
+  title?: string;
+  desc?: string;
 };
 
 type State = {
@@ -52,7 +60,7 @@ type Action =
   | { type: "VISIT_PROJECT"; id: string }
   | { type: "OPEN_PROJECT"; id: string | null }
   | { type: "DISMISS_TOAST"; id: number }
-  | { type: "PUSH_TOAST"; toast: ToastItem }
+  | { type: "PUSH_TOAST"; toast: Omit<ToastItem, "id"> }
   | { type: "OPTIONS"; patch: Partial<Options> };
 
 const LS_KEY = "lunarjjo-portfolio-v2";
@@ -92,9 +100,8 @@ function reducer(s: State, a: Action): State {
       const toast: ToastItem = {
         id: toastId++,
         icon: adv.icon,
-        title: adv.title,
-        desc: adv.desc,
         kind: "advancement",
+        advId: a.id,
       };
       return { ...s, unlocked: [...s.unlocked, a.id], toasts: [...s.toasts, toast] };
     }
@@ -104,7 +111,7 @@ function reducer(s: State, a: Action): State {
     case "OPEN_PROJECT":
       return { ...s, openProjectId: a.id };
     case "PUSH_TOAST":
-      return { ...s, toasts: [...s.toasts, a.toast] };
+      return { ...s, toasts: [...s.toasts, { ...a.toast, id: toastId++ }] };
     case "DISMISS_TOAST":
       return { ...s, toasts: s.toasts.filter((t) => t.id !== a.id) };
     case "OPTIONS":
@@ -249,7 +256,7 @@ export function SiteProvider({ children }: { children: ReactNode }) {
   );
   const dismissToast = useCallback((id: number) => dispatch({ type: "DISMISS_TOAST", id }), []);
   const pushToast = useCallback((toast: Omit<ToastItem, "id">) => {
-    dispatch({ type: "PUSH_TOAST", toast: { ...toast, id: toastId++ } });
+    dispatch({ type: "PUSH_TOAST", toast });
   }, []);
 
   const level = state.unlocked.length;

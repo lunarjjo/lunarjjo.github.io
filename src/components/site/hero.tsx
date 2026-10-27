@@ -1,13 +1,15 @@
 "use client";
 
 /* Hero portofolio: panorama prosedural dari tekstur block asli (siang/malam),
-   partikel ambient, logo + splash ala title screen, CTA, avatar Steve (skin asli). */
+   partikel ambient, logo + splash ala title screen, CTA, avatar Steve (skin asli).
+   Teks dari kamus aktif; splash acak per bahasa. */
 
 import { useEffect, useRef, useState } from "react";
-import { AGENT, SPLASHES } from "@/lib/data";
 import { generatePanorama } from "@/lib/panorama";
 import { useSite } from "@/lib/store";
+import { useI18n } from "@/lib/i18n-context";
 import { MCButton } from "@/components/mc";
+import { AGENT } from "@/lib/data";
 
 /* ---------------- Panorama layers (tekstur asli -> canvas) ---------------- */
 function PanoramaView({ time }: { time: "day" | "night" }) {
@@ -136,6 +138,7 @@ function ParticlesCanvas({ density }: { density: "all" | "minimal" | "off" }) {
 
 /* ---------------- Wajah Steve (crop skin asli 64x64, muka 8x8) ---------------- */
 export function SteveFace({ size = 88 }: { size?: number }) {
+  const { t } = useI18n();
   const scale = size / 8;
   return (
     <div
@@ -149,7 +152,7 @@ export function SteveFace({ size = 88 }: { size?: number }) {
         imageRendering: "pixelated",
       }}
       role="img"
-      aria-label="Avatar wajah Steve — skin asli Minecraft"
+      aria-label={t.ui.hero.steveAlt}
     />
   );
 }
@@ -157,8 +160,9 @@ export function SteveFace({ size = 88 }: { size?: number }) {
 /* ---------------- Hero ---------------- */
 export function Hero() {
   const { state, setOptions, advance } = useSite();
+  const { t } = useI18n();
   // splash acak — lazy init; SSR/client bisa beda, diredam suppressHydrationWarning
-  const [splash] = useState(() => SPLASHES[Math.floor(Math.random() * SPLASHES.length)]);
+  const [splash] = useState(() => t.splashes[Math.floor(Math.random() * t.splashes.length)]);
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -191,22 +195,22 @@ export function Hero() {
         </div>
 
         <p className="mc-font mc-sh-soft mt-5 text-[15px] text-[#e4e4e4] sm:text-[18px]">
-          {AGENT.role}
+          Autonomous Agent — Lunar
         </p>
         <p className="mc-font mc-sh-soft mt-1 text-[12px] text-[#ffff55] sm:text-[13px]">
-          Portofolio lengkap — dari server Minecraft di dalam APK sampai bahasa pemrograman sendiri
+          {t.ui.hero.tagline}
         </p>
 
         <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
           <MCButton size="lg" width={230} onClick={() => scrollTo("proyek")}>
-            Lihat Proyek
+            {t.ui.hero.viewProjects}
           </MCButton>
           <MCButton
             size="lg"
             width={210}
             onClick={() => window.open(AGENT.github, "_blank", "noopener")}
           >
-            GitHub ↗
+            {t.ui.hero.github}
           </MCButton>
           <MCButton
             size="lg"
@@ -216,25 +220,23 @@ export function Hero() {
               advance("sound_of_music");
             }}
           >
-            {state.options.musicOn ? "♪ Musik Nyala" : "♫ Putar Musik"}
+            {state.options.musicOn ? t.ui.hero.musicPlaying : t.ui.hero.musicPlay}
           </MCButton>
         </div>
 
         <p className="mc-font mc-sh-soft mt-8 max-w-xl text-[11px] leading-[1.8] text-[#bdbdbd]">
-          Seluruh tema halaman ini memakai aset Minecraft asli: tekstur GUI &amp; block, ikon item,
-          font pixel, SFX, dan musik — diunduh dari aset resmi (SHA-1 terverifikasi), dipakai sebagai
-          fan-content non-komersil.
+          {t.ui.hero.assetsNote}
         </p>
       </div>
 
       {/* indikator scroll */}
       <button
         type="button"
-        aria-label="Scroll ke bawah"
+        aria-label={t.ui.hero.scrollAria}
         onClick={() => scrollTo("statistik")}
         className="mc-float mc-focus absolute inset-x-0 bottom-10 z-10 mx-auto flex w-fit flex-col items-center gap-1"
       >
-        <span className="mc-font text-[10px] text-[#d8d8d8]">scroll</span>
+        <span className="mc-font text-[10px] text-[#d8d8d8]">{t.ui.hero.scroll}</span>
         <span
           className="block h-[10px] w-[10px] border-b-[4px] border-r-[4px] border-[#d8d8d8]"
           style={{ transform: "rotate(45deg)" }}
@@ -243,10 +245,10 @@ export function Hero() {
 
       {/* label sudut ala menu Minecraft */}
       <div className="mc-font mc-sh-soft absolute bottom-3 left-3 z-10 text-[10px] text-[#bdbdbd]">
-        lunarjjo portfolio v2 — layout web, rasa Minecraft
+        {t.ui.hero.corner1}
       </div>
       <div className="mc-font mc-sh-soft absolute bottom-3 right-3 z-10 text-[10px] text-[#bdbdbd]">
-        © 2026 — agent otonom Lunar
+        {t.ui.hero.corner2}
       </div>
     </section>
   );

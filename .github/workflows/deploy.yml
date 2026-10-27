@@ -54,6 +54,11 @@ jobs:
       - name: Build situs statis
         run: bun run build
 
+      # 13 halaman bahasa: <html lang/dir> + og:locale dibetulkan pada HTML
+      # mentah (root layout tunggal tidak bisa prerender lang per halaman).
+      - name: Fix lang/dir/og:locale per halaman bahasa
+        run: python3 tools/fix_lang_attrs.py out
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

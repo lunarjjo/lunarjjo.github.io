@@ -121,7 +121,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: "Monocraft", "Courier New", ui-monospace, monospace;
+    font-family: "Monocraft", "Segoe UI", "Hiragino Sans", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", "Meiryo", "Malgun Gothic", "Noto Sans Arabic", "Tahoma", "Courier New", ui-monospace, monospace;
     letter-spacing: 0.4px;
   }
   ::selection {
@@ -144,8 +144,49 @@
 }
 
 .mc-font {
-  font-family: "Monocraft", "Courier New", ui-monospace, monospace;
+  /* Monocraft = Latin/Cyrillik/Yunani. Aksara lain (CJK, Arab,
+     Devanagari, Korea) jatuh ke fallback sistem per-glyph — urutan
+     font di bawah menjaga keterbacaan di 13 bahasa situs. */
+  font-family: "Monocraft", "Segoe UI", "Hiragino Sans", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", "Meiryo", "Malgun Gothic", "Noto Sans Arabic", "Tahoma", "Courier New", ui-monospace, monospace;
   letter-spacing: 0.5px;
+}
+
+/* ============================================================
+   RTL (العربية) — mirror elemen fisik yang tidak otomatis ikut arah teks
+   ============================================================ */
+[dir="rtl"] .mc-xp-fg {
+  /* XP bar mengisi dari kanan (bar fisik dicerminkan) */
+  transform: scaleX(-1);
+}
+[dir="rtl"] .mc-toast {
+  right: auto;
+  left: 0.5rem;
+}
+@media (min-width: 640px) {
+  [dir="rtl"] .mc-toast {
+    left: 1rem;
+  }
+}
+[dir="rtl"] .mc-splash {
+  right: auto;
+  left: -0.5rem;
+}
+@media (min-width: 640px) {
+  [dir="rtl"] .mc-splash {
+    left: -2.5rem;
+  }
+}
+[dir="rtl"] .repo-arrow {
+  border-top: none;
+  border-right: none;
+  border-bottom: 3px solid #7f7f7f;
+  border-left: 3px solid #7f7f7f;
+}
+[dir="rtl"] .mc-lang-list button {
+  direction: ltr;
+}
+[dir="rtl"] .mc-mobile-menu {
+  text-align: right;
 }
 .pixelated {
   image-rendering: pixelated;

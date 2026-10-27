@@ -1,12 +1,16 @@
 "use client";
 
 /* TopBar portofolio: navbar sticky + progress bar baca (tekstur XP asli)
-   + toggle musik/siang-malam/partikel + menu mobile. */
+   + toggle musik/siang-malam/partikel + language switcher + menu mobile.
+   Semua label dari kamus aktif (useI18n). */
 
 import { useEffect, useRef, useState } from "react";
 import { NAV_SECTIONS } from "@/lib/data";
 import { useSite } from "@/lib/store";
+import { useI18n } from "@/lib/i18n-context";
+import { fill } from "@/i18n";
 import { ItemIcon, MCTooltip } from "@/components/mc";
+import { LanguageToggle } from "@/components/site/lang-switcher";
 
 function IconToggle({
   icon,
@@ -43,6 +47,7 @@ function IconToggle({
 
 export function TopBar({ active }: { active: string }) {
   const { state, setOptions } = useSite();
+  const { t } = useI18n();
   const [pct, setPct] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const ticking = useRef(false);
@@ -71,27 +76,27 @@ export function TopBar({ active }: { active: string }) {
   };
 
   const particleLabel =
-    state.options.particles === "all" ? "Semua" : state.options.particles === "minimal" ? "Minimal" : "Mati";
+    state.options.particles === "all"
+      ? t.ui.topbar.particlesAll
+      : state.options.particles === "minimal"
+        ? t.ui.topbar.particlesMinimal
+        : t.ui.topbar.particlesOff;
 
   return (
     <header className="fixed inset-x-0 top-0 z-40">
       <div className="border-b-2 border-[#0a0a0a] bg-[rgba(12,12,14,0.9)] backdrop-blur-[3px] shadow-[0_3px_10px_rgba(0,0,0,0.5)]">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-3 sm:px-4">
           {/* logo */}
-          <a
-            href="#beranda"
-            className="mc-focus flex min-w-0 items-center gap-2"
-            aria-label="lunarjjo — kembali ke atas"
-          >
+          <a href="#beranda" className="mc-focus flex min-w-0 items-center gap-2" aria-label={t.ui.backToTop}>
             <ItemIcon src="/mc/items/compass.png" size={32} alt="" className="shrink-0" />
             <span className="mc-font mc-sh hidden text-[17px] tracking-wide text-white sm:inline">
               LUNARJJO
             </span>
-            <span className="mc-font hidden text-[10px] text-[#7f7f7f] md:inline">v2</span>
+            <span className="mc-font hidden text-[10px] text-[#7f7f7f] md:inline">v3</span>
           </a>
 
           {/* nav desktop */}
-          <nav aria-label="Navigasi seksi" className="hidden items-center gap-1 lg:flex">
+          <nav aria-label={t.ui.navLabel} className="hidden items-center gap-1 lg:flex">
             {NAV_SECTIONS.map((s) => {
               const isActive = active === s.id;
               return (
@@ -105,7 +110,7 @@ export function TopBar({ active }: { active: string }) {
                   }`}
                 >
                   <ItemIcon src={s.icon} size={16} alt="" />
-                  {s.label}
+                  {t.ui.nav[s.key]}
                 </a>
               );
             })}
@@ -115,10 +120,10 @@ export function TopBar({ active }: { active: string }) {
           <div className="flex items-center gap-2">
             <IconToggle
               icon="/mc/blocks/note_block.png"
-              label={state.options.musicOn ? "Musik: ON" : "Musik: OFF"}
+              label={state.options.musicOn ? t.ui.topbar.musicOn : t.ui.topbar.musicOff}
               lines={[
-                { text: "Soundtrack asli C418 dkk.", color: "#a8a8a8" },
-                { text: "Berganti mengikuti seksi", color: "#555555" },
+                { text: t.ui.topbar.musicTip1, color: "#a8a8a8" },
+                { text: t.ui.topbar.musicTip2, color: "#555555" },
               ]}
               onClick={() => setOptions({ musicOn: !state.options.musicOn })}
               active={state.options.musicOn}
@@ -126,25 +131,28 @@ export function TopBar({ active }: { active: string }) {
             <div className="hidden sm:block">
               <IconToggle
                 icon={state.options.time === "day" ? "/mc/items/clock.png" : "/mc/items/ender_pearl.png"}
-                label={state.options.time === "day" ? "Waktu: Siang" : "Waktu: Malam"}
-                lines={[{ text: "Ganti panorama hero siang/malam", color: "#a8a8a8" }]}
+                label={state.options.time === "day" ? t.ui.topbar.timeDay : t.ui.topbar.timeNight}
+                lines={[{ text: t.ui.topbar.timeTip, color: "#a8a8a8" }]}
                 onClick={() => setOptions({ time: state.options.time === "day" ? "night" : "day" })}
               />
             </div>
             <div className="hidden sm:block">
               <IconToggle
                 icon="/mc/items/experience_bottle.png"
-                label={`Partikel: ${particleLabel}`}
-                lines={[{ text: "Partikel ambient + burst klik", color: "#a8a8a8" }]}
+                label={fill(t.ui.topbar.particles, { mode: particleLabel })}
+                lines={[{ text: t.ui.topbar.particlesTip, color: "#a8a8a8" }]}
                 onClick={cycleParticles}
                 active={state.options.particles !== "off"}
               />
             </div>
 
+            {/* language switcher */}
+            <LanguageToggle />
+
             {/* burger mobile */}
             <button
               type="button"
-              aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
+              aria-label={menuOpen ? t.ui.topbar.closeMenu : t.ui.topbar.openMenu}
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((v) => !v)}
               className="mc-slot mc-focus flex h-9 w-9 flex-col items-center justify-center gap-[3px] lg:hidden"
@@ -169,7 +177,7 @@ export function TopBar({ active }: { active: string }) {
       {/* menu mobile */}
       {menuOpen && (
         <nav
-          aria-label="Navigasi seksi (mobile)"
+          aria-label={t.ui.navLabel}
           className="mc-mobile-menu absolute inset-x-0 top-full border-b-2 border-[#0a0a0a] bg-[rgba(10,10,12,0.97)] backdrop-blur-[3px] lg:hidden"
         >
           <div className="mx-auto flex max-w-6xl flex-col px-4 py-3">
@@ -183,19 +191,19 @@ export function TopBar({ active }: { active: string }) {
                 }`}
               >
                 <ItemIcon src={s.icon} size={32} alt="" />
-                {s.label}
+                {t.ui.nav[s.key]}
               </a>
             ))}
             <div className="mt-2 flex flex-wrap items-center gap-2 border-t-2 border-[#ffffff14] px-3 pt-3">
-              <span className="mc-font text-[11px] text-[#7f7f7f]">Waktu:</span>
+              <span className="mc-font text-[11px] text-[#7f7f7f]">{t.ui.topbar.mobileTime}</span>
               <button
                 type="button"
                 onClick={() => setOptions({ time: state.options.time === "day" ? "night" : "day" })}
                 className="mc-font mc-focus border-2 border-[#ffffff22] bg-[#ffffff0d] px-2 py-1 text-[12px] text-white"
               >
-                {state.options.time === "day" ? "Siang" : "Malam"}
+                {state.options.time === "day" ? t.ui.topbar.day : t.ui.topbar.night}
               </button>
-              <span className="mc-font text-[11px] text-[#7f7f7f]">Partikel:</span>
+              <span className="mc-font text-[11px] text-[#7f7f7f]">{t.ui.topbar.mobileParticles}</span>
               <button
                 type="button"
                 onClick={cycleParticles}
